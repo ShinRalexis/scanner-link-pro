@@ -11,6 +11,13 @@ Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--2.0--or--later-3fb950?style=for-the-badge" alt="License: GPL-2.0-or-later"></a>
 </p>
 
+> [!NOTE]
+> **The problem it solves.** Professional SCSI scanners from the late '90s, like the Epson GT-10000+,
+> still scan beautifully but have been stranded: modern PCs have no SCSI port, and the USB-SCSI
+> adapters that work with scanners (Logitec LUB-SC / LUB-MSC) have no driver beyond Windows XP.
+> Scanner Link Pro brings them back on Windows 10 and 11, with its own driver for the adapter running
+> in a small built-in Linux, and a modern scanning app on top.
+
 ## Install on Windows
 
 > **The easy way: [download the installer from the latest release](../../releases/latest)**
