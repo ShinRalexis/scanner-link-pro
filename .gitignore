@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Linux interno: troppo grande per git, va negli allegati della release (o si ricrea con installa.ps1)
+linux/
+
+# driver originale Logitec: non è nostro, non si ridistribuisce
+riferimenti/
+
+# installatore: si ricostruisce con installer\build.ps1
+installer/build/
+installer/output/
+installer/redist/
+installer/*.bmp
+
+# note personali dell'autore
+Scanner GT-10000+ - Riassunto.md

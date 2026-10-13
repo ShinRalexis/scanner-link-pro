@@ -1,0 +1,7 @@
+# script eseguiti dentro Linux: sempre con fine riga Unix, anche su Windows
+*.sh text eol=lf
+
+# file binari
+*.png binary
+*.jpg binary
+*.ico binary
