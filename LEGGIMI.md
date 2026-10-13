@@ -126,7 +126,12 @@ allineamento a ogni risoluzione). Solo la curva standard che serve a tornare in 
 misurata sul GT-10000+: su un altro modello, per la correzione più precisa conviene spostare il
 cursore Gamma su un valore (es. 2,2) invece di lasciarlo su Standard.
 
-**Adattatore.** Serve un **Logitec LUB-SC o LUB-MSC** (USB 0789:00C0, anche 0789:0004). Altri
+**Adattatore.** Serve un **Logitec LUB-SC o LUB-MSC** (USB 0789:00C0, anche 0789:0004). Quello
+provato dall'inizio alla fine è il **LUB-MSC** (0789:00C0): chi compra un adattatore apposta prenda
+quello, è verificato al 100% con questo programma; il LUB-SC usa lo stesso protocollo ma non è stato
+provato. Non sono più in produzione: si trovano usati su eBay, Yahoo! Aste Giappone, Mercari e simili.
+Il produttore è **Logitec Corporation**, azienda giapponese (gruppo ELECOM), **non Logitech**, la marca
+nota di mouse e tastiere. Altri
 adattatori USB-SCSI non funzionano: quelli con protocollo proprietario per gli scanner (Adaptec
 USB2-Xchange, Ratoc U2SCX in modalità SCSI) richiederebbero lo stesso lavoro di ricostruzione fatto
 per il Logitec; quelli che Linux vede come normali dischi USB (Microtech USB-SCSI, Castlewood ORB,

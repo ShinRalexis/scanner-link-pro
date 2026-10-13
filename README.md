@@ -18,6 +18,16 @@ Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI
 > Scanner Link Pro brings them back on Windows 10 and 11, with its own driver for the adapter running
 > in a small built-in Linux, and a modern scanning app on top.
 
+> [!TIP]
+> **Which adapter to get.** Scanner Link Pro has been tested end to end with the **Logitec LUB-MSC**
+> USB-SCSI adapter (USB ID `0789:00C0`): if you are buying an adapter on purpose, get that one, it is
+> 100% tested and working with this software. The older LUB-SC uses the same protocol but has not been
+> tested. These adapters are no longer manufactured; look for them second-hand on eBay, Yahoo! Auctions
+> Japan, Mercari or similar marketplaces.
+>
+> Note that the maker is **Logitec Corporation**, a Japanese company (ELECOM group), **not Logitech**,
+> the well-known brand of mice and keyboards.
+
 ## Install on Windows
 
 > **The easy way: [download the installer from the latest release](../../releases/latest)**
