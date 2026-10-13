@@ -102,8 +102,8 @@ powershell -ExecutionPolicy Bypass -File .\installa.ps1
 powershell -ExecutionPolicy Bypass -File .\installer\build.ps1
 ```
 
-The built-in Linux image (`linux/GT10000-debian.tar`) is too large for git: it is attached to each
-release, or `installa.ps1` creates it.
+The built-in Linux image (`linux/GT10000-debian.tar`) is too large for git: download it from
+[release 1.0.0](../../releases/tag/v1.0.0) into `linux/`, or let `installa.ps1` create it.
 
 Tests: `python -m unittest discover -s tests` (the adapter transport tests run inside the WSL
 distribution).
