@@ -181,6 +181,12 @@ controlla l'impronta. Il risultato è in `installer\output\`.
 - **"WSL non riesce ad avviare la sua macchina virtuale"**: la virtualizzazione è spenta nel BIOS/UEFI
   (Intel VT-x, oppure AMD-V/SVM). Si attiva dalle impostazioni del firmware all'avvio del PC; poi si
   riavvia e si riapre il programma.
+- **"[Errno 16] Resource busy" oppure "cerco lo scanner sul bus SCSI..." che non finisce**: un motore
+  di un'apertura precedente (programma chiuso a forza, riavvio lento) teneva ancora l'adattatore, oppure
+  è stato interrotto a metà di un comando e l'adattatore non risponde più. Dalla versione 1.0.2 il
+  programma ferma da solo, in ordine, i motori rimasti e, se l'adattatore non risponde, lo scollega e
+  ricollega (usbipd) e riprova una volta. Se non basta: Riconnetti, oppure staccare e riattaccare il cavo
+  USB dell'adattatore. Il programma si apre una volta sola: riaprendolo si torna alla finestra aperta.
 - **"Adattatore non collegato" con l'adattatore inserito**: il programma riconosce i due identificativi
   dichiarati dal driver originale Logitec (0789:00C0 e 0789:0004, il secondo dalla versione 1.0.1).
   Se in `usbipd list` l'adattatore compare con un altro identificativo, segnalalo in una Issue.

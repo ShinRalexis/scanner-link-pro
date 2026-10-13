@@ -342,6 +342,7 @@ class App:
         self.sequence = None       # sequenza di pagine in corso
         self.calibration = self.load_calibration()
         self.calib = None          # calibrazione righe in corso: letture fatte e da fare
+        self.recovery_tried = False  # già tentato di ricollegare l'adattatore bloccato?
         self.expanded = {"adjust": False, "streaks": False}    # sezioni a tendina: chiuse all'avvio
         i18n.set_language(self.settings.data.get("language", "it"))
 
@@ -713,6 +714,7 @@ class App:
         if self.job:
             return
         self.scanner_info = None
+        self.recovery_tried = False
         self.set_busy(True)
         self.set_status(Msg("status_linux_starting"), "wait")
         if self.backend:
@@ -850,6 +852,8 @@ class App:
                 # il motore riapre lo scanner da solo al comando successivo: si può riprovare subito
                 self.finish_job(Msg("progress_scan_error"))
                 self.set_status(error, "error")
+            elif self.adapter_stuck(msg) and not self.recovery_tried:
+                self.recover_adapter()
             else:
                 self.scanner_info = None
                 self.set_status(error, "error")
@@ -872,7 +876,36 @@ class App:
                 self.set_status(Msg("status_engine_closed"), "error")
                 self.set_busy(False)
 
+    # adattatore bloccato
+
+    # errori all'apertura che un motore interrotto a metà comando può lasciare dietro di sé: l'adattatore
+    # Logitec non risponde più finché non viene scollegato e ricollegato (provato il 2026-10-13)
+    STUCK_KEYS = ("b_no_scanner", "b_cmd_rejected", "b_status_timeout", "b_usb_error", "b_no_answer")
+
+    def adapter_stuck(self, msg):
+        return msg.get("key") in self.STUCK_KEYS or "Errno 16" in str(msg.get("message", ""))
+
+    def recover_adapter(self):
+        """Un tentativo automatico: scollega e ricollega l'adattatore (usbipd), poi riapre lo scanner."""
+        self.recovery_tried = True
+        self.scanner_info = None          # niente scansioni mentre l'adattatore viene ricollegato
+        self.set_busy(True)
+        self.set_status(Msg("status_adapter_reset"), "wait")
+        self.log(Msg("status_adapter_reset"))
+
+        def work():
+            bridge.detach_adapter()
+            time.sleep(2)
+            ok, out = bridge.attach_adapter()
+            if not ok and out:
+                self.events_local.append(("log", {"message": Msg(raw=out)}))
+            if self.backend:
+                self.backend.send(cmd="open", wait_s=30)
+
+        threading.Thread(target=work, daemon=True).start()
+
     def on_opened(self, msg):
+        self.recovery_tried = False
         self.scanner_info = msg
         self.glass_mm = (msg["width_mm"], msg["height_mm"])
         self.resolutions = msg["resolutions"]
@@ -1748,7 +1781,25 @@ class App:
 
 
 
+def already_running():
+    """Un'istanza sola: se il programma è già aperto lo si porta in primo piano e si esce."""
+    global _instance_mutex
+    try:
+        _instance_mutex = ctypes.windll.kernel32.CreateMutexW(None, False, "Local\\ScannerLinkPro")
+        if ctypes.windll.kernel32.GetLastError() != 183:          # ERROR_ALREADY_EXISTS
+            return False
+        hwnd = ctypes.windll.user32.FindWindowW(None, APP_NAME)
+        if hwnd:
+            ctypes.windll.user32.ShowWindow(hwnd, 9)                # SW_RESTORE
+            ctypes.windll.user32.SetForegroundWindow(hwnd)
+        return True
+    except (AttributeError, OSError):
+        return False
+
+
 def main():
+    if already_running():
+        return
     try:
         ctypes.windll.shcore.SetProcessDpiAwareness(1)
     except (AttributeError, OSError):

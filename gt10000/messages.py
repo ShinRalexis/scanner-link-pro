@@ -40,6 +40,7 @@ TEMPLATES = {
     'b_adapter_error': 'Errore adattatore 0x{code} (comando {cmd}, stato {st})',
     'b_scsi_status': 'Stato SCSI 0x{code} sul comando {cmd} (stato {st})',
     'b_unknown_cmd': 'Comando sconosciuto: {cmd}',
+    'b_stale_engines': 'Fermati {n} motori rimasti attivi da un avvio precedente (tenevano occupato l\'adattatore)',
     'b_level_unsupported': 'Scanner con protocollo ESC/I livello {level}: non supportato (servono i livelli da B4 a B8)',
     'b_color_level': 'A colori questo scanner (livello {level}) non è supportato: usa Grigi o Bianco e nero',
 }

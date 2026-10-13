@@ -13,7 +13,7 @@
 ; Non contiene il driver originale Logitec (riferimenti\), che non è nostro.
 
 #define AppName "Scanner Link Pro"
-#define AppVersion "1.0.1"
+#define AppVersion "1.0.2"
 #define AppExe "ScannerLinkPro.exe"
 #define Usbipd "usbipd-win_5.3.0_x64.msi"
 #define Root ".."

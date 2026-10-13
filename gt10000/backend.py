@@ -12,6 +12,7 @@ Protocollo con l'interfaccia Windows, su stdin/stdout:
 
 import json
 import os
+import signal
 import sys
 import threading
 import time
@@ -26,7 +27,7 @@ from gt10000.messages import Note, payload  # noqa: E402
 
 # 1.1: i messaggi portano anche "key" e "args"; scansione con gamma e soglia
 # 1.2: evento "button" quando si preme il pulsante blu dello scanner
-VERSION = "1.4"
+VERSION = "1.5"
 # a riposo il pulsante si interroga 4 volte al secondo; mai durante una scansione
 BUTTON_POLL_S = 0.25
 
@@ -52,9 +53,52 @@ def status(note):
     send(dict({"type": "status"}, **payload(note)))
 
 
+def stop_other_engines(timeout_s=12.0):
+    """Ferma gli altri motori in esecuzione e ritorna quanti erano.
+
+    Un motore resta orfano quando lato Windows il processo viene terminato invece di chiuso con "quit"
+    (programma chiuso a forza, Riconnetti mentre WSL è ancora lento a partire): continua a tenere
+    l'adattatore e il motore nuovo trova "Resource busy". Lo scanner lo usa un programma alla volta,
+    quindi il motore più recente ha ragione. Si cerca in /proc: il Linux minimale non ha ps.
+
+    Si chiede di fermarsi con SIGTERM: il motore finisce il comando in corso (o annulla la scansione) e
+    rilascia l'adattatore. Ucciderlo a metà di un comando lascia il bus SCSI bloccato fino a quando lo
+    scanner non viene spento e riacceso (provato il 2026-10-13): SIGKILL solo se non esce entro il tempo.
+    """
+    me = os.getpid()
+    others = []
+    for name in os.listdir("/proc"):
+        if not name.isdigit() or int(name) == me:
+            continue
+        try:
+            with open("/proc/%s/cmdline" % name, "rb") as f:
+                args = f.read().split(b"\0")
+        except OSError:
+            continue
+        if any(a.endswith(b"gt10000/backend.py") for a in args):
+            others.append(int(name))
+    for pid in others:
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except OSError:
+            pass
+    deadline = time.monotonic() + timeout_s
+    while time.monotonic() < deadline and any(os.path.exists("/proc/%d" % pid) for pid in others):
+        time.sleep(0.1)
+    for pid in others:
+        if os.path.exists("/proc/%d" % pid):
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except OSError:
+                pass
+    return len(others)
+
+
 class Backend:
     def __init__(self):
         self.scanner = None
+        self.stopped_engines = 0     # motori orfani fermati all'avvio (vedi stop_other_engines)
+        self.stop_requested = threading.Event()   # SIGTERM: uscire al primo momento sicuro
         self.cancel_flag = threading.Event()
         self.jobs = []
         self.jobs_cv = threading.Condition()
@@ -78,16 +122,29 @@ class Backend:
             self.jobs.append({"cmd": "quit"})
             self.jobs_cv.notify()
 
+    def request_stop(self, signum=None, frame=None):
+        """SIGTERM: niente uscita immediata, che lascerebbe un comando SCSI a metà; si annulla l'eventuale
+        scansione e si esce dal ciclo principale al primo momento sicuro."""
+        self.stop_requested.set()
+        self.cancel_flag.set()
+
     def run(self):
+        signal.signal(signal.SIGTERM, self.request_stop)
         threading.Thread(target=self.reader, daemon=True).start()
         send({"type": "hello", "version": VERSION, "python": sys.version.split()[0]})
+        if self.stopped_engines:
+            log(Note("b_stale_engines", n=self.stopped_engines))
         while True:
+            if self.stop_requested.is_set():
+                self.close()
+                return
             with self.jobs_cv:
                 if not self.jobs:
                     self.jobs_cv.wait(BUTTON_POLL_S)
                 cmd = self.jobs.pop(0) if self.jobs else None
             if cmd is None:
-                self.poll_button()
+                if not self.stop_requested.is_set():
+                    self.poll_button()
                 continue
             name = cmd.get("cmd")
             if name == "quit":
@@ -140,6 +197,8 @@ class Backend:
         deadline = time.monotonic() + wait_s
         announced = False
         while find_adapter() is None:
+            if self.stop_requested.is_set():
+                return
             if not announced:
                 status(Note("b_wait_adapter"))
                 announced = True
@@ -191,4 +250,15 @@ class Backend:
 
 
 if __name__ == "__main__":
-    Backend().run()
+    # GT10000_KEEP_OTHERS: solo per i test, per non fermare il motore di un programma aperto
+    stopped = 0 if os.environ.get("GT10000_KEEP_OTHERS") else stop_other_engines()
+    if "--stop-others" in sys.argv:
+        # usato dall'interfaccia quando un motore non risponde alla chiusura: pulizia e basta
+        sys.exit(0)
+    backend = Backend()
+    backend.stopped_engines = stopped
+    backend.run()
+    # uscita immediata: il thread che legge i comandi è fermo su stdin, e la chiusura normale di Python
+    # con quel thread ancora attivo può terminare con un abort (codice -6)
+    sys.stdout.flush()
+    os._exit(0)

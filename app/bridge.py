@@ -221,6 +221,16 @@ class Backend:
                 self.proc.wait(5)
             except (OSError, subprocess.TimeoutExpired):
                 self.proc.kill()
+                stop_engines()
+
+
+def stop_engines():
+    """Ferma i motori dentro Linux: chiudere wsl.exe da Windows non sempre ferma il processo laggiù."""
+    try:
+        _run(["wsl.exe", "-d", DISTRO, "-u", "root", "--", "python3", REMOTE_DIR + "/gt10000/backend.py",
+              "--stop-others"], timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        pass
 
 
 def wait_for(predicate, timeout, step=0.5):

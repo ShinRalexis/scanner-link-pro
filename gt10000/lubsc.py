@@ -183,8 +183,10 @@ class LubscAdapter:
 
     # comandi SCSI generici
 
-    def inquiry(self, target, length=36):
-        return self.command(target, bytes([0x12, 0, 0, 0, length, 0]), data_in_len=length)
+    def inquiry(self, target, length=36, timeout_s=5.0):
+        # risponde in pochi millisecondi: un'attesa breve tiene corta la ricerca sul bus anche quando
+        # l'adattatore non risponde (prima: 30 s per ognuno dei 7 ID)
+        return self.command(target, bytes([0x12, 0, 0, 0, length, 0]), data_in_len=length, timeout_s=timeout_s)
 
     def request_sense(self, target, length=18):
         return self.command(target, bytes([0x03, 0, 0, 0, length, 0]), data_in_len=length, check=False)

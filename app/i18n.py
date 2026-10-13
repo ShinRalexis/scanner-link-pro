@@ -246,6 +246,16 @@ STRINGS = {
         "“wsl --install”并重启。",
         "WSL (подсистема Windows для Linux) не установлена. Переустановите Scanner Link Pro или выполните "
         "«wsl --install» от имени администратора и перезагрузите компьютер."),
+    "status_adapter_reset": (
+        "L'adattatore non risponde: lo ricollego e riprovo...",
+        "The adapter is not responding: reconnecting it and trying again...",
+        "El adaptador no responde: lo vuelvo a conectar y lo intento de nuevo...",
+        "Der Adapter antwortet nicht: wird neu verbunden, neuer Versuch...",
+        "L'adaptateur ne répond pas : reconnexion et nouvel essai...",
+        "アダプターが応答しません。接続し直して再試行しています...",
+        "어댑터가 응답하지 않습니다. 다시 연결하고 재시도하는 중...",
+        "适配器无响应：正在重新连接并重试...",
+        "Адаптер не отвечает: переподключаю и пробую снова..."),
     "fatal_virtualization": (
         "WSL non riesce ad avviare la sua macchina virtuale: probabilmente la virtualizzazione è spenta nel "
         "BIOS/UEFI (Intel VT-x o AMD-V/SVM). Attivala, riavvia il computer e riapri il programma.",
@@ -1034,6 +1044,16 @@ STRINGS = {
     "b_unknown_cmd": ("Comando sconosciuto: {cmd}", "Unknown command: {cmd}", "Comando desconocido: {cmd}",
                       "Unbekannter Befehl: {cmd}", "Commande inconnue : {cmd}", "不明なコマンド: {cmd}",
                       "알 수 없는 명령: {cmd}", "未知命令：{cmd}", "Неизвестная команда: {cmd}"),
+    "b_stale_engines": (
+        "Fermati {n} motori rimasti attivi da un avvio precedente (tenevano occupato l'adattatore)",
+        "Stopped {n} engines left running from a previous start (they were holding the adapter)",
+        "Detenidos {n} motores que seguían activos de un inicio anterior (tenían ocupado el adaptador)",
+        "{n} Engines aus einem früheren Start beendet (sie hielten den Adapter belegt)",
+        "{n} moteurs restés actifs d'un démarrage précédent ont été arrêtés (ils occupaient l'adaptateur)",
+        "前回の起動から残っていたエンジンを {n} 個停止しました（アダプターを占有していました）",
+        "이전 실행에서 남아 있던 엔진 {n}개를 중지했습니다(어댑터를 점유하고 있었습니다)",
+        "已停止上次启动遗留的 {n} 个引擎（它们占用了适配器）",
+        "Остановлено двигателей, оставшихся от прошлого запуска: {n} (они занимали адаптер)"),
     "b_level_unsupported": (
         "Scanner con protocollo ESC/I livello {level}: non supportato (servono i livelli da B4 a B8)",
         "Scanner with ESC/I protocol level {level}: not supported (levels B4 to B8 are needed)",
@@ -1065,7 +1085,7 @@ BACKEND_KEYS = [
     "b_warming", "b_lamp_timeout", "b_res_unsupported", "b_scan_start", "b_start_rejected", "b_bad_block",
     "b_fatal", "b_busy_other", "b_adapter_not_found", "b_status_timeout", "b_no_answer", "b_check_condition",
     "b_cmd_rejected", "b_usb_error", "b_no_device", "b_adapter_error", "b_scsi_status", "b_unknown_cmd",
-    "b_level_unsupported", "b_color_level",
+    "b_level_unsupported", "b_color_level", "b_stale_engines",
 ]
 MODE_KEYS = {"color": "mode_color", "gray": "mode_gray", "lineart": "mode_lineart"}
 
