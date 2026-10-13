@@ -246,6 +246,26 @@ STRINGS = {
         "“wsl --install”并重启。",
         "WSL (подсистема Windows для Linux) не установлена. Переустановите Scanner Link Pro или выполните "
         "«wsl --install» от имени администратора и перезагрузите компьютер."),
+    "fatal_virtualization": (
+        "WSL non riesce ad avviare la sua macchina virtuale: probabilmente la virtualizzazione è spenta nel "
+        "BIOS/UEFI (Intel VT-x o AMD-V/SVM). Attivala, riavvia il computer e riapri il programma.",
+        "WSL cannot start its virtual machine: virtualization is probably turned off in the BIOS/UEFI "
+        "(Intel VT-x or AMD-V/SVM). Turn it on, restart the computer and open the program again.",
+        "WSL no puede iniciar su máquina virtual: probablemente la virtualización está desactivada en la "
+        "BIOS/UEFI (Intel VT-x o AMD-V/SVM). Actívala, reinicia el equipo y vuelve a abrir el programa.",
+        "WSL kann seine virtuelle Maschine nicht starten: Wahrscheinlich ist die Virtualisierung im BIOS/UEFI "
+        "ausgeschaltet (Intel VT-x oder AMD-V/SVM). Einschalten, den Computer neu starten und das Programm "
+        "erneut öffnen.",
+        "WSL ne peut pas démarrer sa machine virtuelle : la virtualisation est probablement désactivée dans "
+        "le BIOS/UEFI (Intel VT-x ou AMD-V/SVM). Activez-la, redémarrez l'ordinateur et rouvrez le programme.",
+        "WSL が仮想マシンを起動できません。BIOS/UEFI で仮想化（Intel VT-x または AMD-V/SVM）が無効になって"
+        "いる可能性があります。有効にして PC を再起動し、プログラムを開き直してください。",
+        "WSL이 가상 머신을 시작할 수 없습니다. BIOS/UEFI에서 가상화(Intel VT-x 또는 AMD-V/SVM)가 꺼져 있을 "
+        "가능성이 큽니다. 켜고 컴퓨터를 다시 시작한 뒤 프로그램을 다시 여세요.",
+        "WSL 无法启动其虚拟机：很可能在 BIOS/UEFI 中关闭了虚拟化（Intel VT-x 或 AMD-V/SVM）。请开启后"
+        "重启电脑，再重新打开程序。",
+        "WSL не может запустить виртуальную машину: вероятно, в BIOS/UEFI отключена виртуализация "
+        "(Intel VT-x или AMD-V/SVM). Включите ее, перезагрузите компьютер и снова откройте программу."),
     "fatal_linux_import": (
         "Non sono riuscito a preparare il Linux interno: i dettagli sono nel registro.",
         "The built-in Linux could not be set up: details are in the log.",
@@ -968,11 +988,11 @@ STRINGS = {
                      "Scanner occupé sur une autre interface", "スキャナーは別のインターフェースで使用中です",
                      "스캐너가 다른 인터페이스에서 사용 중입니다", "扫描仪正被其他接口占用", "Сканер занят другим интерфейсом"),
     "b_adapter_not_found": (
-        "Adattatore Logitec USB-SCSI (0789:00C0) non trovato", "Logitec USB-SCSI adapter (0789:00C0) not found",
-        "No se encontró el adaptador Logitec USB-SCSI (0789:00C0)", "Logitec-USB-SCSI-Adapter (0789:00C0) nicht gefunden",
-        "Adaptateur Logitec USB-SCSI (0789:00C0) introuvable", "Logitec USB-SCSI アダプター (0789:00C0) が見つかりません",
-        "Logitec USB-SCSI 어댑터(0789:00C0)를 찾을 수 없습니다", "未找到 Logitec USB-SCSI 适配器（0789:00C0）",
-        "Адаптер Logitec USB-SCSI (0789:00C0) не найден"),
+        "Adattatore Logitec USB-SCSI (0789:00C0, 0789:0004) non trovato", "Logitec USB-SCSI adapter (0789:00C0, 0789:0004) not found",
+        "No se encontró el adaptador Logitec USB-SCSI (0789:00C0, 0789:0004)", "Logitec-USB-SCSI-Adapter (0789:00C0, 0789:0004) nicht gefunden",
+        "Adaptateur Logitec USB-SCSI (0789:00C0, 0789:0004) introuvable", "Logitec USB-SCSI アダプター (0789:00C0, 0789:0004) が見つかりません",
+        "Logitec USB-SCSI 어댑터(0789:00C0, 0789:0004)를 찾을 수 없습니다", "未找到 Logitec USB-SCSI 适配器（0789:00C0）",
+        "Адаптер Logitec USB-SCSI (0789:00C0, 0789:0004) не найден"),
     "b_status_timeout": ("Timeout in attesa dello stato SCSI ({st})", "Timeout waiting for SCSI status ({st})",
                          "Tiempo agotado esperando el estado SCSI ({st})", "Zeitüberschreitung beim SCSI-Status ({st})",
                          "Délai dépassé en attendant l'état SCSI ({st})", "SCSI 状態待ちがタイムアウト ({st})",

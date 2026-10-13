@@ -143,7 +143,8 @@ release su GitHub e avvialo. Chiede la lingua (9 lingue), installa il programma 
 collegamento nel menu Start (e, se vuoi, sul Desktop) e la voce in "App installate" per disinstallarlo.
 Se mancano, installa anche usbipd-win e WSL; nel secondo caso chiede un riavvio. Al primo avvio il
 programma prepara il suo Linux interno nel tuo profilo (circa un minuto). Serve Windows 10 versione
-2004 o successiva, oppure Windows 11, a 64 bit (x64). Disinstallando si può scegliere se togliere anche
+2004 o successiva, oppure Windows 11, a 64 bit (x64), con la virtualizzazione attiva nel BIOS/UEFI
+(serve a WSL 2; sulla maggior parte dei PC lo è già). Disinstallando si può scegliere se togliere anche
 il Linux interno; impostazioni, calibrazione e scansioni restano.
 
 **Dai sorgenti** (per chi sviluppa), da PowerShell nella cartella del progetto:
@@ -172,6 +173,12 @@ controlla l'impronta. Il risultato è in `installer\output\`.
   Se è più marcata, rifai la calibrazione (la polvere può essersi spostata). La correzione è tarata
   con Luminosità 0 e Nitidezza 0; con altri valori funziona, ma un po' meno precisa.
 
+- **"WSL non riesce ad avviare la sua macchina virtuale"**: la virtualizzazione è spenta nel BIOS/UEFI
+  (Intel VT-x, oppure AMD-V/SVM). Si attiva dalle impostazioni del firmware all'avvio del PC; poi si
+  riavvia e si riapre il programma.
+- **"Adattatore non collegato" con l'adattatore inserito**: il programma riconosce i due identificativi
+  dichiarati dal driver originale Logitec (0789:00C0 e 0789:0004, il secondo dalla versione 1.0.1).
+  Se in `usbipd list` l'adattatore compare con un altro identificativo, segnalalo in una Issue.
 - **Registro**: il link "Mostra registro" in basso nel pannello apre una finestra con ogni passaggio.
   Gli errori SCSI riportano anche gli 8 byte di stato dell'adattatore.
 

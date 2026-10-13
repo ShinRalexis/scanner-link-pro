@@ -14,8 +14,15 @@ import sys
 import threading
 import time
 
-DISTRO = "GT10000"
-HARDWARE_ID = "0789:00c0"
+# nome del Linux interno; un altro nome solo per provare il primo avvio senza toccare quello in uso
+DISTRO = os.environ.get("SCANNERLINKPRO_DISTRO", "GT10000")
+# l'adattatore Logitec esiste con due identificativi USB: il driver originale li dichiara entrambi
+HARDWARE_IDS = ("0789:00c0", "0789:0004")
+_adapter_id = HARDWARE_IDS[0]          # quello trovato dall'ultima adapter_state()
+# errori di WSL quando la macchina virtuale non può partire (virtualizzazione spenta nel BIOS/UEFI o
+# componente "Piattaforma macchina virtuale" mancante): i codici non cambiano con la lingua di Windows
+VIRTUALIZATION_ERRORS = ("0x80370102", "0x80370114", "hcs_e_hyperv_not_installed", "virtual machine platform",
+                         "enable virtualization")
 REMOTE_DIR = "/opt/gt10000"
 # programma installato (PyInstaller): driver e backup del Linux stanno accanto all'eseguibile;
 # dai sorgenti: nella cartella del progetto
@@ -73,16 +80,24 @@ def import_distro():
     return r.returncode == 0 and distro_installed(), (_decode(r.stdout) + _decode(r.stderr)).strip()
 
 
+def virtualization_problem(text):
+    low = (text or "").lower()
+    return any(code in low for code in VIRTUALIZATION_ERRORS)
+
+
 def adapter_state():
     """Ritorna (stato, busid): stato fra 'assente', 'non condiviso', 'condiviso', 'collegato'."""
+    global _adapter_id
     exe = usbipd_exe()
     if not exe:
         return "usbipd mancante", None
     out = _decode(_run([exe, "list"]).stdout)
     for line in out.splitlines():
-        if HARDWARE_ID in line.lower():
+        low = line.lower()
+        found = next((hid for hid in HARDWARE_IDS if hid in low), None)
+        if found:
+            _adapter_id = found
             busid = line.split()[0]
-            low = line.lower()
             if "attached" in low:
                 return "collegato", busid
             if "not shared" in low:
@@ -96,7 +111,7 @@ def adapter_state():
 def bind_adapter_elevated():
     """Condivide l'adattatore con usbipd (serve una volta sola, chiede l'autorizzazione UAC)."""
     exe = usbipd_exe()
-    params = "bind --hardware-id %s" % HARDWARE_ID
+    params = "bind --hardware-id %s" % _adapter_id
     SEE_MASK_NOCLOSEPROCESS = 0x40
 
     class SHELLEXECUTEINFO(ctypes.Structure):
@@ -118,7 +133,7 @@ def bind_adapter_elevated():
 
 def attach_adapter():
     exe = usbipd_exe()
-    r = _run([exe, "attach", "--wsl", "--hardware-id", HARDWARE_ID], timeout=60)
+    r = _run([exe, "attach", "--wsl", "--hardware-id", _adapter_id], timeout=60)
     return r.returncode == 0, _decode(r.stdout + r.stderr).strip()
 
 
@@ -126,7 +141,7 @@ def detach_adapter():
     exe = usbipd_exe()
     if exe:
         try:
-            _run([exe, "detach", "--hardware-id", HARDWARE_ID], timeout=30)
+            _run([exe, "detach", "--hardware-id", _adapter_id], timeout=30)
         except (OSError, subprocess.TimeoutExpired):
             pass
 
@@ -187,7 +202,9 @@ class Backend:
 
     def _stderr_reader(self):
         for line in self.proc.stderr:
-            text = line.decode("utf-8", "replace").rstrip()
+            text = _decode(line).replace("\x00", "").rstrip()
+            if virtualization_problem(text):
+                self.events.put(("virtualization", {}))
             if text and "locale" not in text.lower() and not text.startswith(("\t", "    ")):
                 self.events.put(("log", {"message": "[linux] " + text}))
 

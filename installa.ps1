@@ -16,7 +16,8 @@ $Distro = 'GT10000'
 $LinuxDir = Join-Path $Root 'linux'
 $Backup = Join-Path $LinuxDir 'GT10000-debian.tar'
 $Usbipd = 'C:\Program Files\usbipd-win\usbipd.exe'
-$HardwareId = '0789:00c0'
+# l'adattatore Logitec esiste con due identificativi USB (il driver originale li dichiara entrambi)
+$HardwareIds = @('0789:00c0', '0789:0004')
 
 function Step($text) { Write-Host ""; Write-Host "== $text" -ForegroundColor Cyan }
 function Ok($text) { Write-Host "   $text" -ForegroundColor Green }
@@ -96,7 +97,8 @@ if (-not (Test-Path $Backup)) {
 }
 
 Step 'Adattatore Logitec USB-SCSI'
-$line = (& $Usbipd list) | Where-Object { $_ -match $HardwareId } | Select-Object -First 1
+$line = (& $Usbipd list) | Where-Object { $l = $_; $HardwareIds | Where-Object { $l -match $_ } } | Select-Object -First 1
+$HardwareId = $HardwareIds | Where-Object { $line -match $_ } | Select-Object -First 1
 if (-not $line) {
     Warn 'Adattatore non collegato: collegalo quando vuoi, il programma lo condividera'' al primo avvio.'
 } elseif ($line -match 'Not shared') {

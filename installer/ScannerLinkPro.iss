@@ -13,7 +13,7 @@
 ; Non contiene il driver originale Logitec (riferimenti\), che non è nostro.
 
 #define AppName "Scanner Link Pro"
-#define AppVersion "1.0.0"
+#define AppVersion "1.0.1"
 #define AppExe "ScannerLinkPro.exe"
 #define Usbipd "usbipd-win_5.3.0_x64.msi"
 #define Root ".."
@@ -31,8 +31,9 @@ DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 PrivilegesRequired=admin
-ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64compatible
+; solo Windows x64: su ARM il pacchetto di usbipd-win incluso non funzionerebbe
+ArchitecturesAllowed=x64os
+ArchitecturesInstallIn64BitMode=x64os
 MinVersion=10.0.19041
 OutputDir=output
 OutputBaseFilename=ScannerLinkPro-Setup-{#AppVersion}

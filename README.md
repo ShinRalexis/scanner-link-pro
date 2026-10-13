@@ -25,7 +25,8 @@ Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI
    sets up the program's built-in Linux in your profile (about one minute); after that it is ready in
    a few seconds.
 
-**Requirements:** Windows 10 version 2004 or later, or Windows 11, 64-bit (x64) ·
+**Requirements:** Windows 10 version 2004 or later, or Windows 11, 64-bit (x64), with virtualization
+enabled in the BIOS/UEFI (needed by WSL 2; it is on by default on most PCs) ·
 a **Logitec LUB-SC or LUB-MSC** USB-SCSI adapter · an Epson SCSI scanner (see
 [Compatibility](#compatibility)).
 

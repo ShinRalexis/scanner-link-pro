@@ -736,7 +736,8 @@ class App:
                 if out:
                     post("log", message=Msg(raw=out))
                 if not ok:
-                    post("fatal", message=Msg("fatal_linux_import"))
+                    post("fatal", message=Msg("fatal_virtualization" if bridge.virtualization_problem(out)
+                                              else "fatal_linux_import"))
                     return
                 post("log", message=Msg("log_linux_imported", path=bridge.LINUX_HOME))
             if not bridge.usbipd_exe():
@@ -853,7 +854,16 @@ class App:
                 self.scanner_info = None
                 self.set_status(error, "error")
                 self.set_busy(False)
+        elif kind == "virtualization":
+            # WSL non riesce ad avviare la sua macchina virtuale: lo si dice chiaro, il resto non serve
+            self.virtualization_off = True
+            self.set_status(Msg("fatal_virtualization"), "error")
+            self.log(Msg("fatal_virtualization"))
         elif kind == "exit":
+            if getattr(self, "virtualization_off", False):
+                self.scanner_info = None
+                self.set_busy(False)
+                return
             if not self.closing:
                 self.log(Msg("log_engine_closed"))
                 if self.job:

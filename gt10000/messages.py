@@ -30,7 +30,7 @@ TEMPLATES = {
     'b_bad_block': 'Blocco dati non valido (atteso STX, ricevuto {code})',
     'b_fatal': 'Errore fatale dello scanner (stato {code})',
     'b_busy_other': "Scanner occupato su un'altra interfaccia",
-    'b_adapter_not_found': 'Adattatore Logitec USB-SCSI (0789:00C0) non trovato',
+    'b_adapter_not_found': 'Adattatore Logitec USB-SCSI (0789:00C0, 0789:0004) non trovato',
     'b_status_timeout': 'Timeout in attesa dello stato SCSI ({st})',
     'b_no_answer': "Nessuna risposta dall'ID {id} al comando {cmd} ({err})",
     'b_check_condition': 'CHECK CONDITION sul comando {cmd}, sense {sense}',
