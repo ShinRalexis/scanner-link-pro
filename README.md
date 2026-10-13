@@ -112,6 +112,17 @@ distribution).
 The full documentation, including the adapter protocol, the measurements behind the streak
 correction and troubleshooting, is in Italian: **[LEGGIMI.md](LEGGIMI.md)**.
 
+## Support
+
+Scanner Link Pro is free and open source. If it brings your old scanner back to life, you can support
+its development:
+
+<a href="https://liberapay.com/MetaDarko/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
+Bug reports, ideas and reports about other scanners are welcome in
+[Issues](https://github.com/ShinRalexis/scanner-link-pro/issues): please include the text from
+*Show log*.
+
 ## License
 
 Copyright (C) 2026 ShinRalexis. Scanner Link Pro is free software: you can redistribute it and/or
@@ -121,6 +132,3 @@ version**. See [LICENSE](LICENSE) and, for the components it builds on or ships 
 
 Epson, Logitec, Windows and WSL are trademarks of their respective owners. Scanner Link Pro is an
 independent project, not affiliated with or endorsed by them.
-
-If the program brings your old scanner back to life, you can support it on
-[Liberapay](https://liberapay.com/MetaDarko).
