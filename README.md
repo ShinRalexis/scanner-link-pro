@@ -28,13 +28,6 @@ Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI
   <sub>Windows 10 and 11 (64-bit) · 50 MB installer · 9 languages · <a href="https://github.com/ShinRalexis/scanner-link-pro/releases">all releases</a></sub>
 </p>
 
-> [!IMPORTANT]
-> **What's new in 1.0.2.** Fixes "[Errno 16] Resource busy" after a Windows restart. Leftover scanner
-> engines are now stopped cleanly, a stuck Logitec adapter is reconnected automatically (about 8
-> seconds), the SCSI bus scan no longer hangs for minutes, and opening the program twice brings the open
-> window to the front. If you installed 1.0.0 or 1.0.1, install 1.0.2 over it: settings and calibration
-> are kept. [Full release notes](https://github.com/ShinRalexis/scanner-link-pro/releases/tag/v1.0.2)
-
 > [!NOTE]
 > **The problem it solves.** Professional SCSI scanners from the late '90s, like the Epson GT-10000+,
 > still scan beautifully but have been stranded: modern PCs have no SCSI port, and the USB-SCSI
@@ -148,6 +141,21 @@ The built-in Linux image (`linux/GT10000-debian.tar`) is too large for git: down
 
 Tests: `python -m unittest discover -s tests` (the adapter transport tests run inside the WSL
 distribution).
+
+## What's fixed in 1.0.2
+
+- **"[Errno 16] Resource busy" after a Windows restart.** A scanner engine left running from a previous
+  start could keep the adapter busy. Every new engine now stops leftover ones cleanly: they finish the
+  current command and release the adapter.
+- **Stuck adapter reconnected automatically.** If the Logitec adapter stops responding, the program
+  disconnects and reconnects it and tries again, in about 8 seconds, instead of failing.
+- **No more endless "looking for the scanner".** The SCSI bus scan waits at most 5 seconds per device
+  instead of 30.
+- **One window only.** Opening the program a second time brings the open window to the front instead of
+  starting a second engine.
+
+If you installed 1.0.0 or 1.0.1, install 1.0.2 over it: settings and calibration are kept.
+[Full release notes](https://github.com/ShinRalexis/scanner-link-pro/releases/tag/v1.0.2)
 
 ## Documentation
 
