@@ -8,7 +8,6 @@ Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI
 
 <p align="center">
   <a href="https://github.com/ShinRalexis/scanner-link-pro/releases/latest"><img src="https://img.shields.io/github/v/release/ShinRalexis/scanner-link-pro?label=download&color=2b73d6" alt="Latest release"></a>
-  <a href="https://github.com/ShinRalexis/scanner-link-pro/releases"><img src="https://img.shields.io/github/downloads/ShinRalexis/scanner-link-pro/total?color=2b73d6" alt="Total downloads"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?logo=windows" alt="Windows 10 and 11">
   <img src="https://img.shields.io/badge/made%20with-Python-3776AB?logo=python&logoColor=white" alt="Made with Python">
   <img src="https://img.shields.io/badge/languages-9-ffb21e" alt="9 languages">
