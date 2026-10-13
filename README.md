@@ -7,9 +7,33 @@
 Use a vintage Epson SCSI scanner on Windows 10 and 11 through a Logitec USB-SCSI adapter.</p>
 
 <p align="center">
-  <a href="../../releases/latest"><img src="https://img.shields.io/badge/Download-Windows%20installer-2b73d6?style=for-the-badge&logo=windows&logoColor=white" alt="Download the Windows installer"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--2.0--or--later-3fb950?style=for-the-badge" alt="License: GPL-2.0-or-later"></a>
+  <a href="https://github.com/ShinRalexis/scanner-link-pro/releases/latest"><img src="https://img.shields.io/github/v/release/ShinRalexis/scanner-link-pro?label=download&color=2b73d6" alt="Latest release"></a>
+  <a href="https://github.com/ShinRalexis/scanner-link-pro/releases"><img src="https://img.shields.io/github/downloads/ShinRalexis/scanner-link-pro/total?color=2b73d6" alt="Total downloads"></a>
+  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?logo=windows" alt="Windows 10 and 11">
+  <img src="https://img.shields.io/badge/made%20with-Python-3776AB?logo=python&logoColor=white" alt="Made with Python">
+  <img src="https://img.shields.io/badge/languages-9-ffb21e" alt="9 languages">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0--or--later-green" alt="GPL-2.0-or-later license"></a>
+  <a href="https://liberapay.com/MetaDarko/donate"><img src="https://img.shields.io/liberapay/receives/MetaDarko?logo=liberapay&label=liberapay" alt="Liberapay"></a>
 </p>
+
+<br>
+
+<p align="center">
+  <a href="https://github.com/ShinRalexis/scanner-link-pro/releases/latest/download/ScannerLinkPro-Setup-1.0.2.exe">
+    <img src="https://img.shields.io/badge/⬇%20Download%20for%20Windows-Scanner%20Link%20Pro%201.0.2-2b73d6?style=for-the-badge&labelColor=ffb21e" alt="Download Scanner Link Pro 1.0.2 for Windows" height="56">
+  </a>
+</p>
+
+<p align="center">
+  <sub>Windows 10 and 11 (64-bit) · 50 MB installer · 9 languages · <a href="https://github.com/ShinRalexis/scanner-link-pro/releases">all releases</a></sub>
+</p>
+
+> [!IMPORTANT]
+> **What's new in 1.0.2.** Fixes "[Errno 16] Resource busy" after a Windows restart. Leftover scanner
+> engines are now stopped cleanly, a stuck Logitec adapter is reconnected automatically (about 8
+> seconds), the SCSI bus scan no longer hangs for minutes, and opening the program twice brings the open
+> window to the front. If you installed 1.0.0 or 1.0.1, install 1.0.2 over it: settings and calibration
+> are kept. [Full release notes](https://github.com/ShinRalexis/scanner-link-pro/releases/tag/v1.0.2)
 
 > [!NOTE]
 > **The problem it solves.** Professional SCSI scanners from the late '90s, like the Epson GT-10000+,
